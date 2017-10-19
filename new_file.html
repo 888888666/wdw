@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+	    <script type="text/javascript" src="js/Vue.js" ></script>
+	    <script type="text/javascript" src="js/vue-resource.js" ></script>
+		<title></title>
+		<style>
+			*{
+				margin: 0;
+				padding: 0;
+				list-style: none;
+			}
+			#box{
+				width: 400px;
+				height: 600px;
+				overflow: hidden;
+                margin: 50px auto;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box">
+			<input type="text" v-model="t1" @keyup.13="get()" @keydown.down="changeDown()"/>
+			<ul>
+				<li v-for="i in arr" :class="{gray:$index==iNum}">{{i}}</li>
+			</ul>
+		</div>
+		<script>
+		window.onload=function(){
+			new Vue({
+				el:"#box",
+				data:{
+					arr:[],
+					t1:"",
+					iNum:-1
+				},
+				methods:{
+					get:function(){
+						this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+								wd:this.t1
+							},{
+								jsonp:'cb'
+							}).then(function(res){
+								this.arr = res.data.s;
+//								console.log(this.myData);
+							})
+					},
+					changeDown:function(){
+						iNum=-1;
+						iNum++;
+						if(iNum==this.arr.length){
+							this.iNum=-1
+							console.log(this.iNum)
+						}
+					}
+				}
+				
+			})
+		}
+			
+		</script>
+	</body>
+</html>

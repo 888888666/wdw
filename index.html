@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<script src="js/Vue.js"></script>
+		<script src="js/vue-resource.js"></script>
+		<title></title>
+	</head>
+	<body>
+		<div id="box">
+	       <input type="text" v-model="t1" @keyup.13="che()"/>
+	       <ul>
+	       	<li v-for="val in myData">{{val}}</li>
+	       </ul>
+		</div>
+		<script>
+			window.onload = function(){
+				new Vue({
+					el:"#box",
+					data:{
+						myData:[],
+						t1:''
+					},
+					methods:{
+						che:function(){
+							this.$http.jsonp('https://sp0.baidu.com/5a1Fazu8AA54nxGko9WTAnF6hhy/su',{
+								wd:this.t1
+							},{
+								jsonp:'cb'
+							}).then(function(res){
+								this.myData = res.data.s;
+//								console.log(this.myData);
+							})
+						}
+					}
+				})
+			}
+		</script>
+	</body>
+</html>
